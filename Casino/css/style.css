@@ -27,6 +27,17 @@ body {
     cursor: pointer;
 }
 
+.wheel_img_bg {
+    width: 100%; /* Или фиксированный размер, например 300px */
+    height: 100%; /* Или фиксированный размер */
+    min-height: 300px; /* Важно задать высоту, иначе схлопнется */
+    
+    background-image: url('image/wheel.png');
+    background-size: contain; /* Чтобы картинка влезала целиком */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 
 .main {
     flex-grow: 1;

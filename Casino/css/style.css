@@ -11,6 +11,23 @@ body {
     overflow: hidden;
 }
 
+/* Отключаем взаимодействие мыши с картинкой колеса */
+.wheel_img, 
+.arrow, 
+.ledi-image {
+    pointer-events: none; 
+    user-select: none;    /* Запрещает выделение */
+    -webkit-user-drag: none; /* Запрещает перетаскивание картинки */
+}
+
+/* НО! Убедись, что кнопка SPIN остается кликабельной */
+#mobileSpinButton, 
+.spin-button-image {
+    pointer-events: auto; /* Возвращаем клики кнопке */
+    cursor: pointer;
+}
+
+
 .main {
     flex-grow: 1;
 }

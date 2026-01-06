@@ -14,79 +14,82 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Russo+One&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/reset.css">
-    
+
 </head>
+
 
 <body>
     <div class="wrapper">
+        <header class="header">
+            <div class="header_top">
+                <div class="top_logo">
+                    <img src="img/logo.png" alt="">
+                </div>
+                <div class="top_logo-mobile">
+                    <img src="img/modal-logo.png" alt="">
+                </div>
+                <div class="top_btns">
+                    <button class="btns_input">
+                        Вход
+                    </button>
+                    <button class="btns_registration">
+                        Регистрация
+                    </button>
+                </div>
+            </div>
+        </header>
         <main class="main">
             <section class="hero">
                 <div class="container">
                     <div class="hero_head">
+
                         <h1 class="hero_head-title">
                             КРУТИ КОЛЕСО
                         </h1>
                         <h2 class="hero_head-subtitle">
-                            <span>КРУТИ КОЛЕСО</span>
                             <p>ВЫИГРЫВАЙ БОНУСЫ!</p>
                         </h2>
                     </div>
                     <div class="hero_main">
                         <div class="wheel-container">
-                            
-                            <img src="image/arrow.png" alt="Arrow" class="arrow img">
+                            <div class="pointer"></div>
+
                             <div class="wheel" id="wheel">
-                                <div class="wheel_bg">
-                                    <img src="image/wheel.png" alt="Wheel" class="wheel_img" id="wheelImage">
-                                </div>
-                                <!-- <div class="wheel_btn">
-                                    <img src="image/button.png" alt="Spin Button" class="spin-button-image img"
-                                        id="spinButton">
-                                    </div> -->
-                                    <button  class="spin-button-image" id="mobileSpinButton">
-                                        SPIN
-                                    </button>
+                                <div class="prize-slot slot-1 slot-a"><p>+125</p><span>FS</span></div>
+                                <div class="prize-slot slot-2 slot-b"><p>+550%</p><span>to the deposit</span></div>
+                                <div class="prize-slot slot-3 slot-a"><p>+35</p><span>FS</span></div>
+                                <div class="prize-slot slot-4 slot-b"><p>15000</p><span>RUB</span></div>
+                                <div class="prize-slot slot-5 slot-a"><p>+75</p><span>FS</span></div>
+                                <div class="prize-slot slot-6 slot-b"><p>5000</p><span>RUB</span></div>
+                                <div class="prize-slot slot-7 slot-a"><p>+100</p><span>FS</span></div>
+                                <div class="prize-slot slot-8 slot-b"><p>10000</p><span>RUB</span></div>
                             </div>
-                            <img src="image/mobile/button.png" alt="Mobile Spin Button" class="mobile-button img"
-                                id="mobileSpinButton">
-                            <img src="image/mobile/ledi.png" alt="Ledi" class="ledi-image img">
+
+                            <button id="spinButton" class="pulse"><span>SPIN</span></button>
                         </div>
+
+
                     </div>
 
-                    <div class="hero_footer">
-                        <h4 class="hero_footer-title">
-                            Нажмите на центр колеса, <br>
-                            чтобы начать вращение
-                        </h4>
-                        <div class="hero_footer-btns">
-                            <button class="footer_btn">
-                                <div class="btn_img">
-                                    <img src="img/gift.png" alt="Подарок">
-                                </div>
-                                <div class="footer_btn-text">
-                                    Бесплатный спин
-                                </div>
-                            </button>
-                            <button class="footer_btn">
-                                <div class="btn_img">
-                                    <img src="img/dimond.png" alt="Алмаз">
-                                </div>
-                                <div class="footer_btn-text">
-                                    100% выигрыш
-                                </div>
-                            </button>
-                        </div>
-                        <div class="copyright">
-                            <a class="copyright_link" href="">
-                                © 2025 Sneket Wheel. Все права защищены.
-                            </a>
-                        </div>
-                    </div>
+
                 </div>
 
 
             </section>
         </main>
+    </div>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal_inner">
+                <div class="modal_logo">
+                    <img src="img/modal-logo.png" alt="">
+                </div>
+                
+                <h2 class="modal_title">вы выиграли</h2>
+                <p class="modal_text">+550% к депозиту</p>
+                <button class="claim-btn pulse-btn" onclick="closeModal()">ЗАБРАТЬ</button>
+            </div>
+        </div>
     </div>
 
     <script src="js/script.js"></script>

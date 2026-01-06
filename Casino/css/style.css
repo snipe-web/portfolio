@@ -4,12 +4,40 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    font-family: "Russo One", sans-serif;
+
     touch-action: pan-x pan-y;
     overflow: hidden;
 }
+
+@font-face {
+    font-family: 'Evolventa';
+    src: url('../fonts/Evolventa-Regular.woff') format('woff');
+    /* проверь путь еще раз */
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Evolventa';
+    src: url('../fonts/Evolventa-Bold.woff') format('woff');
+    /* Если у тебя файл называется по-другому, подставь свое имя */
+    font-weight: 700;
+    /* Это жирный вес */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Fedora';
+    /* Проверь, чтобы путь к файлу был правильным */
+    src: url('../fonts/SFFedora.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
 
 .main {
     flex-grow: 1;
@@ -22,6 +50,18 @@ body {
     height: 100%;
     width: 100%;
     position: relative;
+    display: grid;
+    justify-content: center;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
 }
 
 .hero_head {
@@ -30,6 +70,54 @@ body {
     gap: 8px;
 
 }
+
+
+.header_top {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 90px 0 90px;
+}
+
+.top_logo-mobile img {
+    display: none;
+}
+
+.top_btns {
+    align-content: center;
+    color: #FFFEFE;
+    display: flex;
+    gap: 20px;
+}
+
+.top_btns>button:hover {
+    transform: scale(1.05);
+    transition: all .3s;
+}
+
+
+.btns_input {
+    border: .54px solid #FFFDFD;
+    border-radius: 8px;
+    color: #FFFEFE;
+    font-size: 15px;
+    line-height: 12px;
+    padding: 10px 16px;
+    background: #181818;
+    font-family: 'Evolventa', sans-serif !important;
+    font-weight: 900;
+}
+
+.btns_registration {
+    font-family: 'Evolventa', sans-serif !important;
+    font-weight: 900;
+    border: .54px solid #181818;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 12px;
+    padding: 10px 16px;
+    background: #FE2B61;
+}
+
 
 
 
@@ -120,36 +208,34 @@ body {
     animation: bigSlideUp 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 
     will-change: transform;
+    display: flex;
+    justify-content: center;
 }
 
-.hero_footer {
-    opacity: 0;
-
-    /* Задержка 0.8s — кнопки поедут, когда колесо почти прилетело */
-    animation: smallSlideUp 0.6s ease-out forwards 0.7s;
-
-    will-change: transform;
-}
 
 .hero_head-title {
-    color: #FF3399;
+    color: #FFF;
     text-align: center;
-    font-size: 60px;
-    line-height: 60px;
+    font-size: 69px;
+    line-height: 0px;
+    margin-bottom: 35px;
+    letter-spacing: 8%;
     /* Подключаем анимацию */
     animation: slideInLeft .7s ease-out forwards;
     will-change: transform;
     backface-visibility: hidden;
+    font-family: 'Evolventa', sans-serif !important;
+    font-weight: 900;
 }
 
 
 .hero_head-subtitle {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 600;
-    display: grid;
-    justify-self: center;
-    font-size: 30px;
-    gap: 4px;
+    font-family: 'Evolventa', sans-serif !important;
+    font-weight: 900;
+    font-size: 85px;
+    line-height: 105px;
+    letter-spacing: 1%;
+    display: inline-block;
     /* Подключаем анимацию */
     animation: slideInRight .7s ease-out forwards;
 
@@ -163,7 +249,20 @@ body {
 }
 
 .hero_head-subtitle p {
-    color: #FF3399;
+    /* 1. Задаем твой градиент с процентами */
+    background: linear-gradient(165deg, #FEE3E9 0%, #FD9CB3 35%, #FE5688 100%);
+
+    /* 2. ОБЯЗАТЕЛЬНО: эти две строчки должны идти вместе */
+    -webkit-background-clip: text;
+    /* Для Chrome, Safari, Edge */
+    background-clip: text;
+    /* Стандарт (для Firefox) */
+
+    /* 3. ОБЯЗАТЕЛЬНО: делаем буквы "стеклянными", чтобы через них было видно фон */
+    color: transparent;
+
+    /* 4. Рекомендую добавить это, чтобы блок не ломался */
+    display: inline-block;
 }
 
 .hero_head-subtitle span {
@@ -175,117 +274,445 @@ body {
     margin-bottom: 32px;
 }
 
-.hero_footer {
-    display: grid;
-    justify-content: center;
-}
-
-.hero_footer-title {
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    color: #C99CB3;
-    text-align: center;
-    font-weight: 450;
-    margin-bottom: 24px;
-}
-
-.hero_footer-btns {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-
-}
-
-.footer_btn {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    border: solid 1px rgba(255, 51, 153, 0.3);
-    border-radius: 24px;
-    padding: 12px 16px;
-    background: rgba(43, 18, 35, 0.6);
-    color: #C99CB3;
-    font-size: 14px;
-    line-height: 20px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 450;
-    margin-bottom: 21px;
-}
-
-.footer_btn:hover {
-    transform: scale(1.05);
-    transition: 0.3s;
-}
-
-.copyright {
-    font-size: 12px;
-    line-height: 16px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 450;
-    color: rgba(201, 156, 179, 0.5);
-    text-align: center;
-}
 
 
-/* =============Колесо фортуна=============== */
 
-.wheel-container {
+
+
+
+
+
+.pointer {
     position: relative;
-    width: 570px;
-    height: 570px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-origin: center center;
-    object-fit: cover;
+    width: 700px;
+    height: 700px;
+    background-image: url('../img/wheel.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 2000;
+    margin: 0 auto;
 }
 
 .wheel {
+    background-image: url('../img/wheetCenter.png');
+    background-size: cover;
+    z-index: -1;
+    display: flex;
+    position: absolute;
+
+    left: 11.6%;
+    top: -3%;
+
+    border-radius: 50%;
+    width: 722px;
+    height: 722px;
+
+    transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-sizing: border-box;
+}
+
+/* --- СЛОТЫ --- */
+.prize-slot {
+    position: absolute;
+    width: 85px;
+    height: 50%;
+    top: 0;
+    left: 50%;
+    margin-left: -42.5px;
+    /* Ровно половина ширины слота */
+    transform-origin: bottom center;
+    /* Крутим от центра колеса */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 137px;
+}
+
+
+.prize-slot img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    object-fit: cover;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.prize-slot span {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+    font-family: 'SF Fedora';
+}
+
+.slot-a span {
+    font-size: 40px;
+    text-align: center;
+}
+
+.slot-b span {
+    text-align: center;
+    font-size: 22px;
+    line-height: 29px;
+}
+
+.slot-a p {
+    font-size: 30px;
+    font-family: 'SF Fedora';
+    text-align: center;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.slot-b p {
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-family: 'SF Fedora';
+
+    text-align: center;
+}
+
+/* Поворот слотов */
+.slot-1 {
+    transform: rotate(22.5deg);
+    color: #5A0223;
+}
+
+.slot-2 {
+    transform: rotate(70.5deg);
+    color: #fff;
+}
+
+.slot-3 {
+    transform: rotate(112.5deg);
+    color: #5A0223;
+}
+
+.slot-4 {
+    transform: rotate(157.5deg);
+    color: #fff;
+}
+
+.slot-5 {
+    transform: rotate(202.5deg);
+    color: #5A0223;
+}
+
+.slot-6 {
+    transform: rotate(247.5deg);
+    color: #fff;
+}
+
+.slot-7 {
+    transform: rotate(292.5deg);
+    color: #5A0223;
+}
+
+.slot-8 {
+    transform: rotate(337.5deg);
+    color: #fff;
+}
+
+/* --- ЦЕНТРАЛЬНАЯ КНОПКА (SPIN) --- */
+#spinButton {
+    font-family: 'SF Fedora';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 114px;
+    height: 114px;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 33px;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../img/spin.png');
+    background-position: 50% 50%;
+    color: #ffffff;
+    -webkit-text-stroke: 1px #FF1BFF;
+    /* Основная тень: мягкое розовое свечение */
+    box-shadow: 0 0 20px #FF1BFF,
+        0 0 40px rgba(255, 27, 255, 0.5),
+        inset 0 0 10px #FF1BFF;
+
+    border: 2px solid #FFFFFF;
+}
+
+.pulse span {
+    margin-bottom: 5px;
+    margin-right: 5px;
+
+
+}
+
+
+/* Анимация пульсации */
+@keyframes pulse-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 15px #FF1BFF, 0 0 5px rgba(255, 27, 255, 0.7);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.07);
+        /* В пике анимации тень становится больше и ярче */
+        box-shadow: 0 0 35px #FF1BFF, 0 0 20px rgba(255, 27, 255, 0.4);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 15px #FF1BFF, 0 0 5px rgba(255, 27, 255, 0.7);
+    }
+}
+
+/* Включаем анимацию */
+.pulse {
+    animation: pulse-animation 1.5s infinite;
+}
+
+/* --- СОСТОЯНИЕ ПРИ НАВЕДЕНИИ --- */
+#spinButton:hover {
+    animation: none;
+    transform: translate(-50%, -50%) scale(1.07);
+
+    /* Усиливаем розовое свечение */
+    box-shadow: 0 0 30px #FF1BFF,
+        0 0 60px rgba(255, 27, 255, 0.8),
+        inset 0 0 15px rgba(255, 255, 255, 0.5);
+
+    /* Белый текст с розовой обводкой при наведении выглядит круче */
+    color: #FFFFFF;
+    -webkit-text-stroke: 1.5px #FF1BFF;
+
+    transition: all 0.2s ease-in-out;
+}
+
+/* --- СОСТОЯНИЕ ВЫКЛЮЧЕНО --- */
+#spinButton:disabled {
+    /* Отключаем только анимацию */
+    animation: none !important;
+
+    /* Оставляем стандартный размер и центрирование */
+    transform: translate(-50%, -50%) scale(1) !important;
+
+    /* Убираем реакцию на мышь */
+    cursor: default;
+
+    /* Сохраняем все оригинальные цвета и тени (как в покое) */
+    /* Если в основном стиле есть фильтры или тени, они останутся */
+}
+
+/* --- ЗАПРЕТ УВЕЛИЧЕНИЯ ПРИ НАВЕДЕНИИ --- */
+/* Делаем так, чтобы hover работал ТОЛЬКО если кнопка НЕ disabled */
+#spinButton:not(:disabled):hover {
+    transform: translate(-50%, -50%) scale(1.07);
+    /* Здесь твои эффекты при наведении */
+}
+
+/* Если навести на выключенную — принудительно оставляем масштаб 1 */
+#spinButton:disabled:hover {
+    transform: translate(-50%, -50%) scale(1) !important;
+    animation: none;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* --- МОДАЛЬНОЕ ОКНО --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    position: relative;
-    transition: transform 0.1s ease-out;
-    top: 7%;
-    left: 4.6%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
 }
 
-.wheel img {
-    width: 90%;
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-image: url('../img/modal-bg.png') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
+    display: flex;
+    justify-content: end;
+    border-radius: 20px;
+    text-align: right;
+    max-width: 970px;
+    height: 655px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: scale(0.8);
+    transition: transform 0.3s;
+    padding: 90px 28px 0 0;
+}
+
+.modal-overlay.show .modal-content {
+    transform: scale(1);
+}
+
+.modal_logo img {
+    transform: rotate(7deg);
+    width: 300px;
+    margin-top: 15px;
+}
+
+.modal_inner {
+    text-align: center;
+    font-family: 'Evolventa', sans-serif !important;
+    color: #FDF4B6;
+    font-weight: bold;
+}
+
+.modal_title {
+    font-size: 50px;
+    margin-bottom: 22px;
+    margin-top: 52px;
+}
+
+.modal_text {
+    font-size: 65px;
+    margin-bottom: 82px;
+}
+
+.claim-btn {}
+
+.pulse-btn {}
+
+.prize-image-modal {
+    width: 80px;
+    height: 80px;
     object-fit: contain;
-    transition: transform 0.1s ease-out;
+    margin-bottom: 15px;
 }
 
-.wheel.spinning {
-    cursor: not-allowed;
+.claim-btn {
+    background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+    color: #651510;
+    border: none;
+    padding: 16px 90px 10px 90px;
+    font-size: 38px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
 }
 
-.wheel.spinning img {
-    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+@keyframes btn-pulse {
+    0% {
+        transform: scale(1);
+        /* Тень цвета темного золота, прозрачная */
+        box-shadow: 0 0 0 0 rgba(218, 134, 49, 0.7);
+    }
+
+    70% {
+        transform: scale(1.05);
+        /* Тень светлого золота, расширяется и затухает */
+        box-shadow: 0 0 0 20px rgba(252, 248, 151, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(218, 134, 49, 0);
+    }
 }
 
-.arrow {
-    position: absolute;
-    left: 43.5%;
-    top: -38%;
-    transform: translateX(-50%);
-    height: auto;
-    z-index: 10;
-    pointer-events: none;
+.claim-btn {
+    background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+    color: #651510;
+    border: none;
+    padding: 16px 90px 10px 90px;
+    font-size: 38px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    /* Тень теперь в тон кнопке (темное золото) */
+    box-shadow: 0 5px 20px rgba(218, 134, 49, 0.5);
+    transition: all 0.3s ease;
+    animation: btn-pulse 2s infinite;
+    display: inline-block;
 }
 
+/* --- КНОПКА ЗАБРАТЬ --- */
+.claim-btn {
+    /* Твои базовые стили */
+    background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+    color: #651510;
+    border: none;
+    padding: 16px 90px 10px 90px;
+    font-size: 38px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(218, 134, 49, 0.4);
 
-@keyframes pulse-beat {
+    /* ПЛАВНОСТЬ */
+    transition: all 0.4s ease-out;
+
+    /* АНИМАЦИЯ */
+    /* Важно: убедись, что название совпадает с твоим @keyframes */
+    animation: btn-pulse 2s infinite ease-in-out;
+}
+
+/* ЭТОТ БЛОК ОСТАНОВИТ ВСЁ */
+.claim-btn:hover {
+    /* 1. Полностью выключаем анимацию */
+    animation: none !important;
+
+    /* 2. Задаем финальное состояние ховера */
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #FCF897,
+        0 0 60px rgba(218, 134, 49, 0.8),
+        inset 0 0 15px rgba(255, 255, 255, 0.7);
+
+    filter: brightness(1.05);
+}
+
+/* --- ЕСЛИ КНОПКА ВЫКЛЮЧЕНА --- */
+.claim-btn:disabled {
+    animation: none !important;
+    transform: scale(1) !important;
+    filter: grayscale(0.5) brightness(0.8);
+    cursor: default;
+}
+
+.claim-btn.pulse-btn {
+    animation: btn-pulse 1.5s infinite;
+}
+
+@keyframes btn-pulse {
     0% {
         transform: scale(1);
     }
 
     50% {
-        transform: scale(1.1);
-        /* Максимальный размер (110%) */
+        transform: scale(1.05);
     }
 
     100% {
@@ -293,221 +720,320 @@ body {
     }
 }
 
-.spin-button-image {
-    position: absolute;
-    top: 42%;
-    left: 42.5%;
-    transform: translate(-50%, -50%);
-    max-width: 108px;
-    height: auto;
-    z-index: 5;
-    cursor: pointer;
-    transition: transform 0.1s ease-out;
-    /* ВАЖНО: Подключаем анимацию */
-    animation: pulse-beat 1.05s infinite ease-in-out;
 
-    /* ВАЖНО: Добавляем плавность, чтобы при наведении она не "дергалась", 
-     а плавно дорастала до максимума */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+@media (max-width: 1000px) {
 
-/* 2. Состояние при наведении */
-.spin-button-image:hover {
-    /* Останавливаем пульсацию */
-    animation: none;
-
-    /* Фиксируем максимальный размер (такой же, как в 50% анимации) */
-    transform: scale(1.1);
-
-    /* Можно добавить постоянное свечение, чтобы было красиво */
-    box-shadow: 0 0 30px rgba(255, 0, 85, 0.6);
-}
-
-.spin-button-image:focus {
-    animation: none;
-    /* Делаем чуть меньше, чем при наведении (было 1.1, стало 1.05), 
-     чтобы чувствовался клик */
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 0, 85, 0.8);
-    /* Тень уменьшается */
-}
-
-
-
-.wheel.spinning .spin-button-image {
-    cursor: not-allowed;
-}
-
-.spin-button {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 15px 30px;
-    font-size: 18px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.spin-button:hover:not(:disabled) {
-    background-color: #45a049;
-}
-
-.spin-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-.result {
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    font-weight: bold;
-}
-
-.award-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.award-overlay.show {
-    display: flex;
-    opacity: 1;
-}
-
-.award-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: awardAppear 0.5s ease-out;
-}
-
-.award-link {
-    display: inline-block;
-    text-decoration: none;
-}
-
-.award-image {
-    max-width: 1200px;
-    max-height: 1200px;
-    width: auto;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.2s ease-out;
-    display: block;
-}
-
-.award-image:hover {
-    transform: scale(1.05);
-}
-
-@keyframes awardAppear {
-    from {
-        transform: scale(0.5);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Мобильная версия */
-.mobile-button {
-    display: none;
-}
-
-.ledi-image {
-    display: none;
-}
-
-
-@media (max-width: 500px) {
-    body {
-        background-image: url('../img/bg-mobile.png');
+    .header_top {
+        padding: 25px 30px 0 30px;
     }
 
     .hero_head {
-        margin-top: 105px;
-        gap: 8px;
+        margin-top: 60px;
+        display: grid;
+        gap: 0px;
+
     }
 
     .hero_head-title {
-        font-size: 30px;
-        line-height: 36px;
+        font-size: 44px;
     }
 
+
     .hero_head-subtitle {
-        font-size: 15px;
-        gap: 4px;
+        font-size: 55px;
+        line-height: 105px;
+        text-align: center;
+
     }
 
     .wheel {
-        top: 4%;
-        left: 32%;
+        left: -1.3%;
+        top: -3%;
     }
 
-    .wheel img {
-        width: 34%;
+    .modal_title {
+        font-size: 36px;
+        margin-bottom: 22px;
     }
 
-    .arrow {
-        left: 47.2%;
-        top: -9.5%;
-
+    .modal_text {
+        font-size: 50px;
     }
 
-    img {
-        width: 80%;
+    .claim-btn {
+        font-size: 25px;
     }
 
-    .spin-button-image {
-        top: 16%;
-        left: 14%;
+
+}
+
+@media (max-width: 600px) {
+
+    .top_logo img {
+        width: 120px;
     }
 
-    .hero_footer {
-        display: grid;
-        justify-content: center;
-        margin-top: -370px;
-    }
-
-    .hero_footer-title {
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 20px;
-        color: #C99CB3;
-        text-align: center;
-        font-weight: 450;
-        margin-bottom: 24px;
-    }
-
-    .footer_btn {
-        gap: 6px;
-        border-radius: 24px;
-        padding: 14px 16px;
+    .btns_registration {
         font-size: 12px;
-        line-height: 14px;
-        margin-bottom: 60px;
+        line-height: 0px;
+        padding: 0px 10px;
+    }
+
+    .btns_input {
+        font-size: 12px;
+        line-height: 12px;
+        padding: 0px 10px;
+    }
+
+    .top_btns {
+        gap: 15px;
+    }
+
+    .hero_head-subtitle {
+        font-size: 40px;
+        line-height: 52px;
+        text-align: center;
+    }
+
+    .hero_head-title {
+        font-size: 35px;
+        line-height: 0px;
+    }
+
+    .pointer {
+        position: relative;
+        width: 540px;
+        height: 540px;
+        background-image: url(../img/wheel.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 2000;
+        margin: 55px auto;
+    }
+
+    .wheel {
+        left: -4.6%;
+        top: 5.5%;
+
+        width: 580px;
+        height: 580px;
+    }
+
+
+    #spinButton {
+        width: 80px;
+        height: 80px;
+        font-size: 23px;
+    }
+
+    .prize-slot {
+        padding-top: 130px;
+    }
+
+    .slot-a span {
+        font-size: 25px;
+    }
+
+    .slot-a p {
+        font-size: 26px;
+        margin-bottom: 5px;
+    }
+
+    .slot-b p {
+        margin-bottom: 5px;
+        font-size: 26px;
+
+
+    }
+
+    .slot-b span {
+        text-align: center;
+        font-size: 15px;
+        line-height: 19px;
+    }
+}
+
+
+
+@media (max-width: 600px) {
+    body {
+
+        background-image: url('../img/bg-mobile.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        touch-action: pan-x pan-y;
+        overflow: hidden;
+    }
+
+    .header_top {
+        justify-content: center;
+    }
+
+    .top_logo-mobile img {
+        display: flex;
+        transform: rotate(7deg);
+        width: 150px;
+        margin-top: 20px;
+
+    }
+
+    .top_btns {
+        display: none;
+    }
+
+    .top_logo img {
+        display: none;
+    }
+
+    .btns_registration {
+        font-size: 12px;
+        line-height: 0px;
+        padding: 0px 10px;
+    }
+
+    .btns_input {
+        font-size: 12px;
+        line-height: 12px;
+        padding: 0px 10px;
+    }
+
+
+    .hero_head {
+        margin-top: 35px;
+        display: grid;
+        gap: 0px;
+    }
+
+    .hero_head-subtitle {
+        font-size: 33px;
+        line-height: 52px;
+        text-align: center;
+    }
+
+    .hero_head-title {
+        margin-bottom: 22px;
+
+        font-size: 28px;
+        line-height: 0px;
+    }
+
+    /* 3. Масштабируем текст (добавь эти значения) */
+    .modal_title {
+        font-size: clamp(20px, 5cqw, 50px);
+        /* Вместо фиксированных 50px */
+        margin-bottom: 2cqw;
+        margin-top: 5cqw;
+    }
+
+    .modal_text {
+        font-size: clamp(24px, 6.5cqw, 65px);
+        /* Вместо фиксированных 65px */
+        margin-bottom: 8cqw;
+    }
+
+    .pointer {
+        width: 400px;
+        height: 400px;
+    }
+
+    .wheel {
+        left: -6.4%;
+        top: 5.5%;
+
+
+        width: 450px;
+        height: 450px;
+    }
+
+
+    #spinButton {
+        width: 60px;
+        height: 60px;
+        font-size: 19px;
+    }
+
+    .prize-slot {
+        padding-top: 105px;
+    }
+
+    .slot-a span {
+        font-size: 18px;
+        margin-left: 6px;
+    }
+
+    .slot-a p {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .slot-b p {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    .slot-b span {
+        text-align: center;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .modal-content {
+        background-image: url('../img/modal-bg.png') !important;
+        /* 1. Изменяем это, чтобы фон не обрезался */
+        background-size: 100% 100% !important;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        /* 2. Добавляем пропорцию (ширина/высота твоей картинки) */
+        aspect-ratio: 970 / 655;
+        container-type: inline-size;
+        /* Позволяет тексту уменьшаться за фоном */
+
+        display: flex;
+        justify-content: end;
+        max-width: 970px;
+        width: 95%;
+        /* Чтобы были отступы по бокам на планшетах */
+        height: auto;
+        /* Высота теперь считается сама через aspect-ratio */
+
+        transition: transform 0.3s;
+        padding: 0 15px 0 0;
+    }
+
+    /* 3. Масштабируем текст (добавь эти значения) */
+    .modal_title {
+        font-size: clamp(20px, 5cqw, 50px);
+        /* Вместо фиксированных 50px */
+        margin-bottom: 2cqw;
+        margin-top: 5cqw;
+    }
+
+    .modal_text {
+        font-size: clamp(24px, 6.5cqw, 65px);
+        /* Вместо фиксированных 65px */
+        margin-bottom: 8cqw;
+    }
+
+    .modal_logo img {
+        width: 30cqw;
+        /* Логотип тоже будет уменьшаться */
+        max-width: 300px;
+        margin-top: 60px;
+    }
+
+    /* 4. Исправляем кнопку (добавляем плавную остановку) */
+    .claim-btn:hover {
+        animation-play-state: paused !important;
+        /* Остановит пульс на месте */
+        transform: scale(1.1);
+        box-shadow: 0 0 30px #FCF897, 0 0 60px rgba(218, 134, 49, 0.8);
+    }
+
+    .claim-btn {
+        padding: 10px 40px 8px 40px;
+        font-size: 15px;
     }
 }

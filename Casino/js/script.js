@@ -1,78 +1,143 @@
-$(document).ready(function() {
-    let isSpinning = false;
-    let currentRotation = 0;
-    const wheel = $('#wheel');
-    const wheelImage = $('#wheelImage');
-    const spinButton = $('#spinButton');
-    const spinButtonImage = $('#spinButtonImage');
-    const result = $('#result');
-    const awardOverlay = $('#awardOverlay');
-    const awardLink = $('#awardLink');
-    const mobileSpinButton = $('#mobileSpinButton');
-    // min 184 max 225
-    
-    // Установите ссылку для награды здесь
-    // awardLink.attr('href', 'https://example.com');
+// === НАСТРОЙКИ ПОДКРУТКИ ===
+// Укажи номер слота (1-8), который должен выпасть
+const TARGET_SLOT = 2;
+// ===========================
 
-    // Функция для вращения колеса
-    function spinWheel() {
-        if (isSpinning) return;
-        
-        isSpinning = true;
-        wheel.addClass('spinning');
-        spinButton.prop('disabled', true);
-        result.text('');
+// Массив с названиями (для модалки), чтобы не парсить HTML
+const prizes = [
+    "Айфон 15",       // Слот 1
+    "+550 к депозиту",    // Слот 2
+    "Скидка 90%",     // Слот 3
+    "Ничего :(",      // Слот 4
+    "MacBook Pro",    // Слот 5
+    "AirPods Max",    // Слот 6
+    "Печенька",       // Слот 7
+    "Tesla Model X"   // Слот 8
+];
 
-        // Генерируем рандомное число от 6 до 7 (целое)
-        const randomTurns = Math.floor(Math.random() * 2) + 6; // 6 или 7
-        
-        // Генерируем рандомное число от 184 до 225 (целое)
-        const randomAngle = Math.floor(Math.random() * (695 - 650 + 1)) + 660; // от 184 до 225 включительно
+// Изображения дублируем для модалки (можно парсить, но так надежнее)
+const images = [
+    "https://img.icons8.com/color/96/gift--v1.png",
+    "#",
+    "https://img.icons8.com/color/96/discount--v1.png",
+    "https://img.icons8.com/color/96/sad.png",
+    "https://img.icons8.com/color/96/laptop--v1.png",
+    "https://img.icons8.com/color/96/headphones.png",
+    "https://img.icons8.com/color/96/cookie.png",
+    "https://img.icons8.com/color/96/car--v1.png"
+];
 
-        // Вычисляем целевой угол (в градусах)
-        // randomTurns * 360 + randomAngle
-        const targetRotation = currentRotation + (randomTurns * 360) + randomAngle;
-        
-        // Применяем вращение
-        wheelImage.css('transform', `rotate(${targetRotation}deg)`);
-        
+let isSpinning = false;
+let currentRotation = 0;
+const wheel = document.getElementById('wheel');
+const spinButton = document.getElementById('spinButton');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalPrizeText = document.getElementById('modalPrizeText');
+const modalImage = document.getElementById('modalImage');
 
-        // После завершения анимации
-        setTimeout(function() {
-            isSpinning = false;
-            wheel.removeClass('spinning');
-            spinButton.prop('disabled', false);
-            result.text('Результат: ' + randomAngle + '°');
-            
-            // Показываем награду с затемнением
-            showAward();
-        }, 4000);
-    }
+const SLOTS_COUNT = 8;
+const SEGMENT_ANGLE = 360 / SLOTS_COUNT;
 
-    // Обработчик клика на кнопку
-    spinButton.on('click', function() {
-        spinWheel();
-    });
+spinButton.addEventListener('click', () => {
+    if (isSpinning) return;
 
-    // Обработчик клика на изображение кнопки
-    spinButtonImage.on('click', function() {
-        if (!isSpinning) {
-            spinButton.click();
-        }
-    });
+    isSpinning = true;
+    spinButton.disabled = true; // Отключаем кнопку, анимация hover пропадает
 
-    // Обработчик клика на мобильную кнопку
-    mobileSpinButton.on('click', function() {
-        if (!isSpinning) {
-            spinWheel();
-        }
-    });
+    // Расчет градусов (как в прошлом коде)
+    const slotAngle = (TARGET_SLOT - 1) * SEGMENT_ANGLE + (SEGMENT_ANGLE / 2);
+    const offsetToStop = 360 - slotAngle;
+    const randomOffset = Math.floor(Math.random() * 20) - 10; // +/- 10 градусов рандом
+    const fullSpins = 360 * 5; // 5 оборотов
 
-    // Функция для показа награды
-    function showAward() {
-        awardOverlay.addClass('show');
-    }
+    // Расчет поворота
+    const currentMod = currentRotation % 360;
+    const desiredPoint = offsetToStop + randomOffset;
+    let rotationNeeded = desiredPoint - currentMod;
+
+    if (rotationNeeded < 0) rotationNeeded += 360;
+
+    // Крутим
+    currentRotation += fullSpins + rotationNeeded;
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    // Ждем завершения анимации (5 секунд)
+    setTimeout(() => {
+        isSpinning = false;
+        showModal();
+    }, 5000);
 });
 
+function showModal() {
+    // Подставляем данные в модалку
+    const prizeIndex = TARGET_SLOT - 1;
+    modalPrizeText.innerText = prizes[prizeIndex];
+    modalImage.src = images[prizeIndex];
 
+    // Показываем окно
+    modalOverlay.classList.add('show');
+}
+
+function closeModal() {
+    modalOverlay.classList.remove('show');
+    // Если хочешь разрешить крутить снова, раскомментируй:
+    spinButton.disabled = false;
+}
+
+// === ТВОЯ ЛОГИКА КОЛЕСА (БЕЗ ИЗМЕНЕНИЙ) ===
+spinButton.addEventListener('click', () => {
+    if (isSpinning) return;
+
+    isSpinning = true;
+    spinButton.disabled = true;
+
+    const slotAngle = (TARGET_SLOT - 1) * SEGMENT_ANGLE + (SEGMENT_ANGLE / 2);
+    const offsetToStop = 360 - slotAngle;
+    const randomOffset = Math.floor(Math.random() * 20) - 10;
+    const fullSpins = 360 * 5;
+
+    const currentMod = currentRotation % 360;
+    const desiredPoint = offsetToStop + randomOffset;
+    let rotationNeeded = desiredPoint - currentMod;
+
+    if (rotationNeeded < 0) rotationNeeded += 360;
+
+    currentRotation += fullSpins + rotationNeeded;
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(() => {
+        isSpinning = false;
+        showModal();
+    }, 5000);
+});
+
+// === ОБНОВЛЕННАЯ МОДАЛКА (БЕЗОПАСНАЯ) ===
+function showModal() {
+    const prizeIndex = TARGET_SLOT - 1;
+
+    // Ищем элементы. Если их нет в HTML — ошибки в консоли не будет
+    const prizeTextElement = document.getElementById('modalPrizeText');
+    const prizeImageElement = document.getElementById('modalImage');
+
+    if (prizeTextElement) {
+        prizeTextElement.innerText = prizes[prizeIndex];
+    }
+
+    if (prizeImageElement) {
+        prizeImageElement.src = images[prizeIndex];
+    }
+
+    // Просто показываем само окно
+    if (modalOverlay) {
+        modalOverlay.classList.add('show');
+    }
+}
+
+function closeModal() {
+    if (modalOverlay) {
+        modalOverlay.classList.remove('show');
+    }
+    // Кнопку оставляем выключенной или включаем — на твое усмотрение
+    spinButton.disabled = false;
+}
 

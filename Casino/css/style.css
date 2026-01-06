@@ -765,7 +765,7 @@ body {
     }
 
     .wheel {
-        left: -1.3%;
+        left: -2%;
         top: -3%;
     }
 
@@ -1193,42 +1193,249 @@ body {
     }
 }
 
-
-
 @media screen and (max-width: 950px) and (orientation: landscape) {
 
-    /* Настраиваем сразу html и body, чтобы не было белых дыр */
-    html,
+    /* 1. Разрешаем скролл для всей страницы */
     body {
         background-image: url('/img/len-bg.png');
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        height: auto !important;
+        /* Убираем блокировку касаний, если она была */
+        touch-action: auto !important;
+    }
+
+    /* 2. Разрешаем скролл внутри модалки, если она открыта */
+    .modal-overlay {
+        overflow-y: auto !important;
+        align-items: flex-start !important;
+        /* Чтобы модалка начиналась сверху, а не висела по центру */
+        padding: 20px 0;
+    }
+
+    .modal-content {
+        height: auto !important;
+        /* Убираем фиксированную высоту */
+        min-height: 300px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        /* Если контент все равно не лезет, разрешаем скролл внутри самой карточки */
+        overflow: visible !important;
+    }
+}
+
+/* --- 1. БАЗОВЫЕ СТИЛИ ЛАМПОЧЕК (ДЛЯ ПК) --- */
+.led-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border-radius: 50%;
+    /* Центровка и радиус для десктопа */
+    transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-267px);
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #00d2ff;
+    animation: blinkWhite 0.8s infinite ease-in-out;
+    z-index: 2001;
+}
+
+@keyframes blinkWhite {
+
+    0%,
+    100% {
+        opacity: 1;
+        filter: brightness(1.5);
+    }
+
+    50% {
+        opacity: 0.5;
+        filter: brightness(0.8);
+    }
+}
+
+/* --- 2. ПЛАНШЕТЫ (до 1000px) --- */
+@media (max-width: 1000px) {
+    .header_top {
+        padding: 25px 30px 0 30px;
+    }
+
+    .hero_head {
+        margin-top: 60px;
+        display: grid;
+        gap: 0px;
+    }
+
+    .hero_head-title {
+        font-size: 44px;
+    }
+
+    .hero_head-subtitle {
+        font-size: 55px;
+        line-height: 105px;
+        text-align: center;
+    }
+
+    .wheel {
+        left: -1.3%;
+        top: -3%;
+    }
+
+    .modal_title {
+        font-size: 36px;
+        margin-bottom: 22px;
+    }
+
+    .modal_text {
+        font-size: 50px;
+    }
+
+    .claim-btn {
+        font-size: 25px;
+    }
+}
+
+/* --- 3. МОБИЛЬНЫЕ (до 600px) --- */
+@media (max-width: 600px) {
+    body {
+        background-image: url('../img/bg-mobile.png') !important;
+        background-size: cover !important;
+        background-position: center top !important;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .top_logo img,
+    .top_btns {
+        display: none;
+    }
+
+    .top_logo-mobile img {
+        display: flex;
+        transform: rotate(7deg);
+        width: 150px;
+        margin-top: 5px;
+    }
+
+    .hero_head {
+        margin-top: 35px;
+    }
+
+    .hero_head-subtitle {
+        font-size: 33px;
+        line-height: 52px;
+    }
+
+    .hero_head-title {
+        font-size: 28px;
+        margin-bottom: 22px;
+        line-height: normal;
+    }
+
+    /* Колесо и указатель для мобилок */
+    .pointer {
+        width: 400px;
+        height: 400px;
+        margin: 5px auto;
+        position: relative;
+        z-index: 2000;
+    }
+
+    .wheel {
+        width: 450px;
+        height: 450px;
+        left: -6.4%;
+        top: -4.5%;
+    }
+
+    /* Лампочки для мобилок (уменьшаем радиус) */
+    .led-item {
+        width: 10px;
+        height: 10px;
+        transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-151px);
+    }
+
+    #spinButton {
+        width: 60px;
+        height: 60px;
+        font-size: 18px;
+    }
+
+    /* Модальное окно */
+    .modal-content {
+        background-image: url('../img/modal-bg.png') !important;
+        background-size: 100% 100% !important;
+        aspect-ratio: 970 / 655;
+        width: 95%;
+        height: auto;
+        padding: 0 10px 0 0;
+    }
+
+    .modal_title {
+        font-size: clamp(20px, 5cqw, 50px);
+    }
+
+    .modal_text {
+        font-size: clamp(24px, 6.5cqw, 65px);
+    }
+
+    .claim-btn-mobile {
+        display: block;
+        background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+        color: #651510;
+        width: 245px;
+        height: 40px;
+        font-size: 26px;
+        font-weight: bold;
+        border-radius: 50px;
+        animation: btn-pulse 1.5s infinite ease-in-out;
+    }
+}
+
+/* --- 4. ГОРИЗОНТАЛЬНЫЙ РЕЖИМ (LANDSCAPE) --- */
+@media screen and (max-width: 950px) and (orientation: landscape) {
+
+    html,
+    body {
+        /* Исправленный путь к фону */
+        background-image: url('../img/len-bg.png') !important;
+        background-position: center center !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
 
         margin: 0 !important;
         padding: 0 !important;
-        width: 100% !important;
-        /* min-height гарантирует, что фон растянется, если контент длинный */
         min-height: 100vh !important;
-
-        /* Прописываем фон заново с принудительным приоритетом */
-        /* ЗАМЕНИ 'img/bg.jpg' на свой путь к картинке */
-        background-image: url('img/bg.jpg') !important;
-        background-position: center center !important;
-        background-size: cover !important;
-        background-repeat: no-repeat !important;
-        /* fixed не дает фону уезжать при скролле на мобилках */
-        background-attachment: fixed !important;
-
-        /* Разрешаем скролл, чтобы можно было увидеть всё колесо */
         overflow-y: auto !important;
+        /* Включаем скролл */
     }
 
-    /* Убираем возможный белый фон у главных контейнеров */
+    /* Убираем блокирующие фоны */
     .container,
     .main,
     #wrapper {
-        background-color: transparent !important;
-        background: none !important;
+        background: transparent !important;
+    }
+
+    /* Фикс ламп для горизонтали, чтобы не вылетали за экран */
+    .led-item {
+        transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-130px);
+        width: 8px;
+        height: 8px;
+    }
+
+    .pointer {
+        margin: 20px auto;
     }
 }
+
 
 
 /* Хаотичное мигание (через одну) */

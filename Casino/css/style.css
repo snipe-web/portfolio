@@ -901,10 +901,8 @@ body {
 
     .header_top {
         justify-content: center;
-        padding: 10px 0 ;
+        padding: 10px 0;
     }
-
-    
 
     .btn {
         display: flex;
@@ -996,6 +994,22 @@ body {
         display: block;
     }
 
+    .claim-btn {
+        text-align: center;
+        background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+        color: #651510;
+        border: none;
+        padding: 10px 100px 6px 34px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(218, 134, 49, 0.4);
+        transition: all 0.4s ease-out;
+        animation: btn-pulse 2s infinite ease-in-out;
+        width: 100px;
+    }
+
 
     #spinButton {
         width: 60px;
@@ -1056,7 +1070,7 @@ body {
         /* Высота теперь считается сама через aspect-ratio */
 
         transition: transform 0.3s;
-        padding: 0 15px 0 0;
+        padding: 0 10px 0 0;
     }
 
     /* 3. Масштабируем текст (добавь эти значения) */

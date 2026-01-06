@@ -877,15 +877,37 @@ body {
     body {
 
         background-image: url('../img/bg-mobile.png');
-        background-size: cover;
-        background-position: center;
+        /* 1. Растягиваем на всю ширину и высоту БЕЗ обрезки */
+        min-height: 100vh;
+        /* Фикс для мобильных браузеров (учет адресной строки) */
+        min-height: -webkit-fill-available;
+
+        background-image: url('../img/bg-mobile.png') !important;
+
+        /* 1. Возвращаем cover, чтобы сохранить пропорции (не сплющивать) */
+        background-size: cover !important;
+
+        /* 2. Привязываем к ВЕРХУ, чтобы не обрезало голову/логотип сверху */
+        background-position: center top !important;
+
         background-repeat: no-repeat;
 
-        touch-action: pan-x pan-y;
-        overflow: hidden;
+        /* Чтобы при скролле фон не ехал */
+        background-attachment: scroll;
+
+        display: flex;
+        flex-direction: column;
     }
 
     .header_top {
+        justify-content: center;
+        padding: 10px 0 ;
+    }
+
+    
+
+    .btn {
+        display: flex;
         justify-content: center;
     }
 
@@ -978,9 +1000,14 @@ body {
     #spinButton {
         width: 60px;
         height: 60px;
-        font-size: 19px;
-        top: 44%;
+        font-size: 18px;
+        top: 46.5%;
+
         left: 50%;
+    }
+
+    .pulse span {
+        margin-bottom: 0;
     }
 
     .prize-slot {
@@ -1061,8 +1088,10 @@ body {
         background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
         color: #651510;
         border: none;
-        padding: 10px 0px 10px 0px;
+        padding: 4px 0px 4px 0px;
         font-size: 26px;
+        width: 245px;
+        height: 40px;
         font-weight: bold;
         border-radius: 50px;
         cursor: pointer;

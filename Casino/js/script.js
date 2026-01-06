@@ -133,11 +133,5 @@ function showModal() {
     }
 }
 
-function closeModal() {
-    if (modalOverlay) {
-        modalOverlay.classList.remove('show');
-    }
-    // Кнопку оставляем выключенной или включаем — на твое усмотрение
-    spinButton.disabled = false;
-}
+
 

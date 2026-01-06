@@ -1166,30 +1166,7 @@ body {
         margin: 20px auto;
     }
 
-    body {
-
-        background-image: url('../img/bg-mobile.png');
-        /* 1. Растягиваем на всю ширину и высоту БЕЗ обрезки */
-        min-height: 100vh;
-        /* Фикс для мобильных браузеров (учет адресной строки) */
-        min-height: -webkit-fill-available;
-
-        background-image: url('../img/bg-mobile.png') !important;
-
-        /* 1. Возвращаем cover, чтобы сохранить пропорции (не сплющивать) */
-        background-size: cover !important;
-
-        /* 2. Привязываем к ВЕРХУ, чтобы не обрезало голову/логотип сверху */
-        background-position: center top !important;
-
-        background-repeat: no-repeat;
-
-        /* Чтобы при скролле фон не ехал */
-        background-attachment: scroll;
-
-        display: flex;
-        flex-direction: column;
-    }
+    
 
     .header_top {
         justify-content: center;

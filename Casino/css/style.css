@@ -1166,7 +1166,7 @@ body {
         margin: 20px auto;
     }
 
-    
+
 
     .header_top {
         justify-content: center;
@@ -1343,7 +1343,7 @@ body {
     }
 
     .modal-content {
-        background-image: url('../img/modal-bg.png') !important;
+        background-image: url('../img/modal-bg2.png') !important;
         /* 1. Изменяем это, чтобы фон не обрезался */
         background-size: 100% 100% !important;
         background-repeat: no-repeat;
@@ -1366,25 +1366,27 @@ body {
         padding: 0 10px 0 0;
     }
 
+
+
     /* 3. Масштабируем текст (добавь эти значения) */
     .modal_title {
         font-size: clamp(20px, 5cqw, 50px);
         /* Вместо фиксированных 50px */
-        margin-bottom: 2cqw;
-        margin-top: 5cqw;
+        margin-bottom: 1cqw;
+        margin-top: 4cqw;
     }
 
     .modal_text {
         font-size: clamp(24px, 6.5cqw, 65px);
         /* Вместо фиксированных 65px */
-        margin-bottom: 8cqw;
+        margin-bottom: 6cqw;
     }
 
     .modal_logo img {
         width: 30cqw;
         /* Логотип тоже будет уменьшаться */
         max-width: 300px;
-        margin-top: 60px;
+        margin-top: 115px;
     }
 
 
@@ -1488,5 +1490,40 @@ body {
     50% {
         opacity: 1;
         filter: brightness(2);
+    }
+}
+
+/* Блокировка фона для всех режимов при открытой модалке */
+body.modal-open {
+    overflow: hidden !important;
+    height: 100vh !important;
+    width: 100% !important;
+    position: fixed !important;
+    /* Намертво фиксируем задник */
+}
+
+@media screen and (max-width: 950px) and (orientation: landscape) {
+
+    /* Оверлей теперь сам становится скролл-контейнером */
+    .modal-overlay {
+        display: block !important;
+        /* Разрешаем блочное расположение */
+        overflow-y: auto !important;
+        /* Включаем скролл ВНУТРИ модалки */
+        pointer-events: auto !important;
+        /* Оверлей больше не прозрачный для кликов */
+        -webkit-overflow-scrolling: touch;
+        padding: 20px 0;
+        /* Отступы, чтобы модалка не липла к краям */
+    }
+
+    .modal-content {
+        
+    }
+
+    /* Чтобы фон за модалкой не обрезался, пока она открыта */
+    body.modal-open {
+        background-image: url('../img/len-bg.png') !important;
+        background-size: cover !important;
     }
 }

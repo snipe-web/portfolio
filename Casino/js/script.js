@@ -134,4 +134,19 @@ function showModal() {
 }
 
 
+function showModal() {
+    const prizeIndex = TARGET_SLOT - 1;
+    const prizeTextElement = document.getElementById('modalPrizeText');
+    const prizeImageElement = document.getElementById('modalImage');
+
+    if (prizeTextElement) prizeTextElement.innerText = prizes[prizeIndex];
+    if (prizeImageElement) prizeImageElement.src = images[prizeIndex];
+
+    if (modalOverlay) {
+        modalOverlay.classList.add('show');
+        // Добавляем класс, который заморозит фон
+        document.body.classList.add('modal-open');
+    }
+}
+
 

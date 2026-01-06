@@ -286,7 +286,7 @@ body {
     position: relative;
     width: 700px;
     height: 700px;
-    background-image: url('../img/wheel.png');
+    background-image: url('../img/wheelSenter2.png');
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 2000;
@@ -1015,8 +1015,7 @@ body {
         width: 60px;
         height: 60px;
         font-size: 18px;
-        top: 46.5%;
-
+        top: 50%;
         left: 50%;
     }
 
@@ -1143,5 +1142,39 @@ body {
 
     .claim-btn-mobile.pulse-btn {
         animation: btn-pulse 1.5s infinite;
+    }
+}
+
+@media screen and (max-width: 950px) and (orientation: landscape) {
+
+    /* 1. Разрешаем скролл для всей страницы */
+    body {
+        background-image: url('/img/len-bg.png');
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        height: auto !important;
+        /* Убираем блокировку касаний, если она была */
+        touch-action: auto !important;
+    }
+
+    /* 2. Разрешаем скролл внутри модалки, если она открыта */
+    .modal-overlay {
+        overflow-y: auto !important;
+        align-items: flex-start !important;
+        /* Чтобы модалка начиналась сверху, а не висела по центру */
+        padding: 20px 0;
+    }
+
+    .modal-content {
+        height: auto !important;
+        /* Убираем фиксированную высоту */
+        min-height: 300px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        /* Если контент все равно не лезет, разрешаем скролл внутри самой карточки */
+        overflow: visible !important;
     }
 }

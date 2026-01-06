@@ -765,7 +765,7 @@ body {
     }
 
     .wheel {
-        left: -2%;
+        left: -1.3%;
         top: -3%;
     }
 
@@ -785,91 +785,7 @@ body {
 
 }
 
-@media (max-width: 600px) {
 
-    .top_logo img {
-        width: 120px;
-    }
-
-    .btns_registration {
-        font-size: 12px;
-        line-height: 0px;
-        padding: 0px 10px;
-    }
-
-    .btns_input {
-        font-size: 12px;
-        line-height: 12px;
-        padding: 0px 10px;
-    }
-
-    .top_btns {
-        gap: 15px;
-    }
-
-    .hero_head-subtitle {
-        font-size: 40px;
-        line-height: 52px;
-        text-align: center;
-    }
-
-    .hero_head-title {
-        font-size: 35px;
-        line-height: 0px;
-    }
-
-    .pointer {
-        position: relative;
-        width: 540px;
-        height: 540px;
-        background-image: url(../img/wheel.png);
-        background-size: contain;
-        background-repeat: no-repeat;
-        z-index: 2000;
-        margin: 55px auto;
-    }
-
-    .wheel {
-        left: -4.6%;
-        top: 5.5%;
-
-        width: 580px;
-        height: 580px;
-    }
-
-
-    #spinButton {
-        width: 80px;
-        height: 80px;
-        font-size: 23px;
-    }
-
-    .prize-slot {
-        padding-top: 130px;
-    }
-
-    .slot-a span {
-        font-size: 25px;
-    }
-
-    .slot-a p {
-        font-size: 26px;
-        margin-bottom: 5px;
-    }
-
-    .slot-b p {
-        margin-bottom: 5px;
-        font-size: 26px;
-
-
-    }
-
-    .slot-b span {
-        text-align: center;
-        font-size: 15px;
-        line-height: 19px;
-    }
-}
 
 .led-item {
     position: absolute;
@@ -1193,55 +1109,7 @@ body {
     }
 }
 
-@media screen and (max-width: 950px) and (orientation: landscape) {
 
-    /* 1. Разрешаем скролл для всей страницы */
-    body {
-        background-image: url('/img/len-bg.png');
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        background-size: cover;
-        background-position: top;
-        background-repeat: no-repeat;
-        height: auto !important;
-        /* Убираем блокировку касаний, если она была */
-        touch-action: auto !important;
-    }
-
-    /* 2. Разрешаем скролл внутри модалки, если она открыта */
-    .modal-overlay {
-        overflow-y: auto !important;
-        align-items: flex-start !important;
-        /* Чтобы модалка начиналась сверху, а не висела по центру */
-        padding: 20px 0;
-    }
-
-    .modal-content {
-        height: auto !important;
-        /* Убираем фиксированную высоту */
-        min-height: 300px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        /* Если контент все равно не лезет, разрешаем скролл внутри самой карточки */
-        overflow: visible !important;
-    }
-}
-
-/* --- 1. БАЗОВЫЕ СТИЛИ ЛАМПОЧЕК (ДЛЯ ПК) --- */
-.led-item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 18px;
-    height: 18px;
-    background-color: #fff;
-    border-radius: 50%;
-    /* Центровка и радиус для десктопа */
-    transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-267px);
-    box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #00d2ff;
-    animation: blinkWhite 0.8s infinite ease-in-out;
-    z-index: 2001;
-}
 
 @keyframes blinkWhite {
 
@@ -1257,146 +1125,9 @@ body {
     }
 }
 
-/* --- 2. ПЛАНШЕТЫ (до 1000px) --- */
-@media (max-width: 1000px) {
-    .header_top {
-        padding: 25px 30px 0 30px;
-    }
 
-    .hero_head {
-        margin-top: 60px;
-        display: grid;
-        gap: 0px;
-    }
 
-    .hero_head-title {
-        font-size: 44px;
-    }
 
-    .hero_head-subtitle {
-        font-size: 55px;
-        line-height: 105px;
-        text-align: center;
-    }
-
-    .wheel {
-        left: -1.3%;
-        top: -3%;
-    }
-
-    .modal_title {
-        font-size: 36px;
-        margin-bottom: 22px;
-    }
-
-    .modal_text {
-        font-size: 50px;
-    }
-
-    .claim-btn {
-        font-size: 25px;
-    }
-}
-
-/* --- 3. МОБИЛЬНЫЕ (до 600px) --- */
-@media (max-width: 600px) {
-    body {
-        background-image: url('../img/bg-mobile.png') !important;
-        background-size: cover !important;
-        background-position: center top !important;
-        background-repeat: no-repeat;
-        background-attachment: scroll;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .top_logo img,
-    .top_btns {
-        display: none;
-    }
-
-    .top_logo-mobile img {
-        display: flex;
-        transform: rotate(7deg);
-        width: 150px;
-        margin-top: 5px;
-    }
-
-    .hero_head {
-        margin-top: 35px;
-    }
-
-    .hero_head-subtitle {
-        font-size: 33px;
-        line-height: 52px;
-    }
-
-    .hero_head-title {
-        font-size: 28px;
-        margin-bottom: 22px;
-        line-height: normal;
-    }
-
-    /* Колесо и указатель для мобилок */
-    .pointer {
-        width: 400px;
-        height: 400px;
-        margin: 5px auto;
-        position: relative;
-        z-index: 2000;
-    }
-
-    .wheel {
-        width: 450px;
-        height: 450px;
-        left: -6.4%;
-        top: -4.5%;
-    }
-
-    /* Лампочки для мобилок (уменьшаем радиус) */
-    .led-item {
-        width: 10px;
-        height: 10px;
-        transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-151px);
-    }
-
-    #spinButton {
-        width: 60px;
-        height: 60px;
-        font-size: 18px;
-    }
-
-    /* Модальное окно */
-    .modal-content {
-        background-image: url('../img/modal-bg.png') !important;
-        background-size: 100% 100% !important;
-        aspect-ratio: 970 / 655;
-        width: 95%;
-        height: auto;
-        padding: 0 10px 0 0;
-    }
-
-    .modal_title {
-        font-size: clamp(20px, 5cqw, 50px);
-    }
-
-    .modal_text {
-        font-size: clamp(24px, 6.5cqw, 65px);
-    }
-
-    .claim-btn-mobile {
-        display: block;
-        background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
-        color: #651510;
-        width: 245px;
-        height: 40px;
-        font-size: 26px;
-        font-weight: bold;
-        border-radius: 50px;
-        animation: btn-pulse 1.5s infinite ease-in-out;
-    }
-}
 
 /* --- 4. ГОРИЗОНТАЛЬНЫЙ РЕЖИМ (LANDSCAPE) --- */
 @media screen and (max-width: 950px) and (orientation: landscape) {
@@ -1433,6 +1164,301 @@ body {
 
     .pointer {
         margin: 20px auto;
+    }
+
+    body {
+
+        background-image: url('../img/bg-mobile.png');
+        /* 1. Растягиваем на всю ширину и высоту БЕЗ обрезки */
+        min-height: 100vh;
+        /* Фикс для мобильных браузеров (учет адресной строки) */
+        min-height: -webkit-fill-available;
+
+        background-image: url('../img/bg-mobile.png') !important;
+
+        /* 1. Возвращаем cover, чтобы сохранить пропорции (не сплющивать) */
+        background-size: cover !important;
+
+        /* 2. Привязываем к ВЕРХУ, чтобы не обрезало голову/логотип сверху */
+        background-position: center top !important;
+
+        background-repeat: no-repeat;
+
+        /* Чтобы при скролле фон не ехал */
+        background-attachment: scroll;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header_top {
+        justify-content: center;
+        padding: 10px 0;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .hero_main {
+        display: grid;
+    }
+
+    .top_logo-mobile img {
+        display: flex;
+        transform: rotate(7deg);
+        width: 150px;
+        margin-top: 5px;
+
+    }
+
+    .top_btns {
+        display: none;
+    }
+
+    .top_logo img {
+        display: none;
+    }
+
+    .btns_registration {
+        font-size: 12px;
+        line-height: 0px;
+        padding: 0px 10px;
+    }
+
+    .btns_input {
+        font-size: 12px;
+        line-height: 12px;
+        padding: 0px 10px;
+    }
+
+
+    .hero_head {
+        margin-top: 35px;
+        display: grid;
+        gap: 0px;
+    }
+
+    .hero_head-subtitle {
+        font-size: 33px;
+        line-height: 52px;
+        text-align: center;
+    }
+
+    .hero_head-title {
+        margin-bottom: 22px;
+
+        font-size: 28px;
+        line-height: 0px;
+    }
+
+    /* 3. Масштабируем текст (добавь эти значения) */
+    .modal_title {
+        font-size: clamp(20px, 5cqw, 50px);
+        /* Вместо фиксированных 50px */
+        margin-bottom: 2cqw;
+        margin-top: 5cqw;
+    }
+
+    .modal_text {
+        font-size: clamp(24px, 6.5cqw, 65px);
+        /* Вместо фиксированных 65px */
+        margin-bottom: 8cqw;
+    }
+
+    .pointer {
+        width: 400px;
+        height: 400px;
+        margin: 5px auto;
+    }
+
+    .wheel {
+        left: -6.4%;
+        top: -4.5%;
+
+
+        width: 450px;
+        height: 450px;
+    }
+
+    .claim-btn-mobile {
+        display: block;
+    }
+
+    .claim-btn {
+        text-align: center;
+        background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+        color: #651510;
+        border: none;
+        padding: 10px 100px 6px 34px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(218, 134, 49, 0.4);
+        transition: all 0.4s ease-out;
+        animation: btn-pulse 2s infinite ease-in-out;
+        width: 100px;
+    }
+
+
+    .led-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        /* Размер можно чуть уменьшить для изящности */
+        height: 10px;
+        background-color: #fff;
+        /* Чистый белый */
+        border-radius: 50%;
+
+        /* Расстановка по кругу — подбери нужное расстояние в translateY */
+        transform: translate(-54%, -90%) rotate(calc(var(--i) * 30.1deg)) translateY(-151px);
+
+        /* Белое неоновое свечение */
+        box-shadow:
+            0 0 5px #fff,
+            0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 40px #00d2ff;
+        /* Легкий голубой ореол для чистого белого эффекта */
+
+        animation: blinkWhite 0.8s infinite ease-in-out;
+    }
+
+    #spinButton {
+        width: 60px;
+        height: 60px;
+        font-size: 18px;
+        top: 50%;
+        left: 50%;
+    }
+
+    .pulse span {
+        margin-bottom: 0;
+    }
+
+    .prize-slot {
+        padding-top: 105px;
+    }
+
+    .slot-a span {
+        font-size: 18px;
+        margin-left: 6px;
+    }
+
+    .slot-a p {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .slot-b p {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    .slot-b span {
+        text-align: center;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .modal-content {
+        background-image: url('../img/modal-bg.png') !important;
+        /* 1. Изменяем это, чтобы фон не обрезался */
+        background-size: 100% 100% !important;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        /* 2. Добавляем пропорцию (ширина/высота твоей картинки) */
+        aspect-ratio: 970 / 655;
+        container-type: inline-size;
+        /* Позволяет тексту уменьшаться за фоном */
+
+        display: flex;
+        justify-content: end;
+        max-width: 970px;
+        width: 95%;
+        /* Чтобы были отступы по бокам на планшетах */
+        height: auto;
+        /* Высота теперь считается сама через aspect-ratio */
+
+        transition: transform 0.3s;
+        padding: 0 10px 0 0;
+    }
+
+    /* 3. Масштабируем текст (добавь эти значения) */
+    .modal_title {
+        font-size: clamp(20px, 5cqw, 50px);
+        /* Вместо фиксированных 50px */
+        margin-bottom: 2cqw;
+        margin-top: 5cqw;
+    }
+
+    .modal_text {
+        font-size: clamp(24px, 6.5cqw, 65px);
+        /* Вместо фиксированных 65px */
+        margin-bottom: 8cqw;
+    }
+
+    .modal_logo img {
+        width: 30cqw;
+        /* Логотип тоже будет уменьшаться */
+        max-width: 300px;
+        margin-top: 60px;
+    }
+
+
+    .claim-btn-mobile {
+        font-family: 'Evolventa', sans-serif !important;
+        display: block;
+        /* Твои базовые стили */
+        background: linear-gradient(98deg, #DA8631 1%, #FCF897 48%, #DA8631 100%);
+        color: #651510;
+        border: none;
+        padding: 4px 0px 4px 0px;
+        font-size: 26px;
+        width: 245px;
+        height: 40px;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(218, 134, 49, 0.4);
+
+        /* ПЛАВНОСТЬ */
+        transition: all 0.4s ease-out;
+
+        /* АНИМАЦИЯ */
+        /* Важно: убедись, что название совпадает с твоим @keyframes */
+        animation: btn-pulse 1.5s infinite ease-in-out;
+    }
+
+    /* ЭТОТ БЛОК ОСТАНОВИТ ВСЁ */
+    .claim-btn-mobile:hover {
+        /* 1. Полностью выключаем анимацию */
+        animation: none !important;
+
+        /* 2. Задаем финальное состояние ховера */
+        transform: scale(1.05);
+        box-shadow: 0 0 30px #FCF897,
+            0 0 60px rgba(218, 134, 49, 0.8),
+            inset 0 0 15px rgba(255, 255, 255, 0.7);
+
+        filter: brightness(1.05);
+    }
+
+    /* --- ЕСЛИ КНОПКА ВЫКЛЮЧЕНА --- */
+    .claim-btn-mobile:disabled {
+        animation: none !important;
+        transform: scale(1) !important;
+        filter: grayscale(0.5) brightness(0.8);
+        cursor: default;
+    }
+
+    .claim-btn-mobile.pulse-btn {
+        animation: btn-pulse 1.5s infinite;
     }
 }
 

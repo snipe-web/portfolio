@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LH Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0d0d0d;
+  --s1:      #131313;
+  --s2:      #181818;
+  --b1:      #1e1e1e;
+  --b2:      #2a2a2a;
+  --acc:     #c8f135;
+  --text:    #e0e0e0;
+  --dim:     #555;
+  --mid:     #888;
+  --r:       8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:13px}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;min-height:100vh;display:flex;flex-direction:column}
+
+/* HEADER */
+header{display:flex;align-items:center;gap:16px;padding:12px 22px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:rgba(13,13,13,.97);backdrop-filter:blur(12px);z-index:200}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;white-space:nowrap;letter-spacing:-.3px}
+.logo em{color:var(--acc);font-style:normal}
+.h-search{flex:1;max-width:340px;position:relative}
+.h-search input{width:100%;background:var(--s1);border:1px solid var(--b2);border-radius:var(--r);padding:7px 12px 7px 30px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;transition:border-color .15s}
+.h-search input:focus{border-color:var(--acc)}
+.h-search input::placeholder{color:var(--dim)}
+.h-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none}
+.h-right{margin-left:auto;color:var(--dim);font-size:11px;white-space:nowrap}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;height:calc(100vh - 47px)}
+
+/* SIDEBAR */
+aside{width:210px;min-width:210px;border-right:1px solid var(--b1);overflow-y:auto;padding:14px 0 40px;scrollbar-width:thin;scrollbar-color:var(--b2) transparent}
+.ng{margin-bottom:2px}
+.ng-title{display:flex;align-items:center;gap:7px;padding:7px 14px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);cursor:pointer;user-select:none;transition:color .15s}
+.ng-title:hover{color:var(--mid)}
+.ng-arrow{margin-left:auto;font-size:9px;opacity:.35;transition:transform .2s}
+.ng.open .ng-arrow{transform:rotate(90deg);opacity:.8}
+.ni-wrap{display:none}
+.ng.open .ni-wrap{display:block}
+.ni{display:flex;align-items:center;gap:6px;padding:5px 14px 5px 30px;font-size:11px;color:var(--dim);cursor:pointer;border-left:2px solid transparent;transition:all .12s}
+.ni:hover{color:var(--text);background:#ffffff04}
+.ni.active{color:var(--acc);border-left-color:var(--acc);background:#c8f13506}
+.nb{margin-left:auto;font-size:9px;padding:1px 5px;background:var(--b2);color:var(--dim);border-radius:10px}
+.ni.active .nb{background:#c8f13518;color:var(--acc)}
+
+/* MAIN */
+main{flex:1;overflow-y:auto;padding:22px 26px;scrollbar-width:thin;scrollbar-color:var(--b2) transparent}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--b1);gap:12px}
+.pt{font-family:'Syne',sans-serif;font-size:19px;font-weight:700}
+.ps{font-size:11px;color:var(--dim);margin-top:3px}
+.pc{background:var(--s1);border:1px solid var(--b2);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--mid);white-space:nowrap;margin-top:4px}
+
+/* CARDS */
+.cards{display:flex;flex-direction:column;gap:10px}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;transition:border-color .2s;animation:fu .22s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--b2)}
+
+/* Card head */
+.ch{display:flex;align-items:center;gap:11px;padding:12px 14px;cursor:pointer;user-select:none}
+.ce{width:34px;height:34px;background:var(--s2);border:1px solid var(--b2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ci{flex:1;min-width:0}
+.cn{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.chip{font-size:9px;padding:2px 7px;border-radius:20px;border:1px solid;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.cg{color:#6ee7a0;border-color:#6ee7a020;background:#6ee7a00a}
+.cb{color:#7eb8f7;border-color:#7eb8f720;background:#7eb8f70a}
+.cy{color:var(--acc);border-color:#c8f13520;background:#c8f1350a}
+.cr{color:#f87171;border-color:#f8717120;background:#f871710a}
+.cp{color:#c4b5fd;border-color:#c4b5fd20;background:#c4b5fd0a}
+.co{color:#fdba74;border-color:#fdba7420;background:#fdba740a}
+.ct{margin-left:auto;color:var(--dim);font-size:11px;flex-shrink:0;transition:transform .2s,color .15s}
+.card.open .ct{transform:rotate(180deg);color:var(--acc)}
+
+/* Card body */
+.cb-wrap{display:none;border-top:1px solid var(--b1)}
+.card.open .cb-wrap{display:block}
+
+/* Cover image */
+.c-img{width:100%;max-height:240px;object-fit:cover;display:block;border-bottom:1px solid var(--b1)}
+.c-img-ph{height:80px;background:var(--s2);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;gap:8px;cursor:pointer}
+.c-img-ph:hover{background:#1c1c1c}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:1px solid var(--b1);background:var(--s2);padding:0 14px}
+.tab{padding:9px 14px;font-size:11px;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+
+/* Tab panels */
+.tp{display:none;padding:16px}
+.tp.active{display:block}
+
+/* Info grid */
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.ib{display:flex;flex-direction:column;gap:5px}
+.il{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim)}
+.iv{font-size:12px;color:var(--text);line-height:1.5}
+.iv a{color:var(--acc);text-decoration:none}
+.iv a:hover{text-decoration:underline}
+
+/* Status */
+.status{display:flex;align-items:center;gap:7px}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-g{background:#6ee7a0;box-shadow:0 0 6px #6ee7a060}
+.dot-y{background:var(--acc);box-shadow:0 0 6px #c8f13560}
+.dot-r{background:#f87171;box-shadow:0 0 6px #f8717160}
+.sl{font-size:11px;color:var(--mid)}
+
+/* Description */
+.desc{font-size:12px;color:#aaa;line-height:1.75;white-space:pre-wrap}
+
+/* Steps */
+.steps{display:flex;flex-direction:column;gap:8px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--b2);border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--mid);flex-shrink:0;margin-top:1px}
+.step.done .step-num{background:#c8f13515;border-color:#c8f13530;color:var(--acc)}
+.step-text{font-size:12px;color:#bbb;line-height:1.65;flex:1}
+
+/* Code block */
+.code-block{background:#090909;border:1px solid var(--b1);border-radius:6px;overflow:hidden}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--b1);background:var(--s2)}
+.code-lang{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.copy-btn{font-size:10px;color:var(--dim);cursor:pointer;padding:2px 8px;border:1px solid var(--b2);border-radius:4px;background:transparent;font-family:'JetBrains Mono',monospace;transition:color .15s,border-color .15s}
+.copy-btn:hover{color:var(--acc);border-color:var(--acc)}
+.copy-btn.copied{color:var(--acc)}
+pre{padding:14px;overflow-x:auto;font-size:11px;line-height:1.7;color:#c9d1d9;scrollbar-width:thin;scrollbar-color:var(--b2) transparent}
+pre code{font-family:'JetBrains Mono',monospace}
+
+/* Links list */
+.links-list{display:flex;flex-direction:column;gap:6px}
+.link-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--s2);border:1px solid var(--b1);border-radius:6px;text-decoration:none;transition:border-color .15s}
+.link-item:hover{border-color:var(--b2)}
+.li-ico{font-size:14px;flex-shrink:0;margin-top:1px}
+.li-body{flex:1;min-width:0}
+.li-name{font-size:12px;color:var(--text);font-family:'Syne',sans-serif;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li-desc{font-size:11px;color:var(--mid);margin-top:2px;line-height:1.5}
+.li-url{font-size:10px;color:var(--dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li-arrow{color:var(--dim);font-size:11px;flex-shrink:0;margin-top:3px;transition:color .15s}
+.link-item:hover .li-arrow{color:var(--acc)}
+
+/* Section label */
+.slabel{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin-bottom:8px;margin-top:14px;display:flex;align-items:center;gap:8px}
+.slabel::after{content:'';flex:1;height:1px;background:var(--b1)}
+.slabel:first-child{margin-top:0}
+
+/* Empty */
+.empty{text-align:center;padding:50px 20px;color:var(--dim)}
+.empty-ico{font-size:32px;margin-bottom:10px}
+.empty p{font-size:12px;line-height:1.8}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">LH<em>.</em>Vault</div>
+  <div class="h-search">
+    <span class="h-ico">⌕</span>
+    <input type="text" id="search" placeholder="Поиск по названию и описанию..." oninput="doSearch(this.value)">
+  </div>
+  <div class="h-right" id="h-right">0 записей</div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar">
+
+    <div class="ng open">
+      <div class="ng-title" onclick="toggleNG(this)">
+        <span>📦</span> Модификации
+        <span class="ng-arrow">▶</span>
+      </div>
+      <div class="ni-wrap">
+        <div class="ni active" onclick="go('mods',this)">Все <span class="nb" id="nb-mods">0</span></div>
+        <div class="ni" onclick="go('mods-tilda',this)">Tilda <span class="nb" id="nb-mods-tilda">0</span></div>
+        <div class="ni" onclick="go('mods-other',this)">Прочее <span class="nb" id="nb-mods-other">0</span></div>
+      </div>
+    </div>
+
+    <div class="ng">
+      <div class="ng-title" onclick="toggleNG(this)">
+        <span>🛠</span> Инструменты
+        <span class="ng-arrow">▶</span>
+      </div>
+      <div class="ni-wrap">
+        <div class="ni" onclick="go('tools',this)">Все <span class="nb" id="nb-tools">0</span></div>
+        <div class="ni" onclick="go('tools-design',this)">Дизайн <span class="nb" id="nb-tools-design">0</span></div>
+        <div class="ni" onclick="go('tools-dev',this)">Разработка <span class="nb" id="nb-tools-dev">0</span></div>
+      </div>
+    </div>
+
+    <div class="ng">
+      <div class="ng-title" onclick="toggleNG(this)">
+        <span>⚡</span> Скрипты
+        <span class="ng-arrow">▶</span>
+      </div>
+      <div class="ni-wrap">
+        <div class="ni" onclick="go('scripts',this)">Все <span class="nb" id="nb-scripts">0</span></div>
+        <div class="ni" onclick="go('scripts-tilda',this)">Tilda <span class="nb" id="nb-scripts-tilda">0</span></div>
+      </div>
+    </div>
+
+    <div class="ng">
+      <div class="ng-title" onclick="toggleNG(this)">
+        <span>🎨</span> Подборки
+        <span class="ng-arrow">▶</span>
+      </div>
+      <div class="ni-wrap">
+        <div class="ni" onclick="go('collections',this)">Все <span class="nb" id="nb-collections">0</span></div>
+        <div class="ni" onclick="go('collections-figma',this)">Figma <span class="nb" id="nb-collections-figma">0</span></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <main>
+    <div class="ph">
+      <div>
+        <div class="pt" id="page-title">Модификации</div>
+        <div class="ps" id="page-sub">все категории</div>
+      </div>
+      <div class="pc" id="page-count">0 записей</div>
+    </div>
+    <div id="cards" class="cards"></div>
+  </main>
+</div>
+
+<script>
+// ================================================================
+//  БД — КАК ДОБАВЛЯТЬ НОВУЮ ЗАПИСЬ:
+//  Скопируй один объект из массива, вставь ниже и замени данные.
+//  Поля:
+//   id       — уникальный ключ (любая строка без пробелов)
+//   cats     — массив категорий (из списка ниже)
+//   emoji    — иконка карточки
+//   name     — название
+//   chips    — теги: { text, cls } (cls: cg/cb/cy/cr/cp/co)
+//   status   — 'green' | 'yellow' | 'red'
+//   statusText — текст статуса
+//   version  — версия или дата
+//   source   — ссылка для скачивания
+//   image    — URL картинки (или '' чтобы не показывать)
+//   desc     — описание (показывается на вкладке "Описание")
+//   steps    — массив шагов установки: ['шаг 1', 'шаг 2', ...]
+//   code     — { lang: 'js/html/css', text: '...' } или null
+//   links    — массив ссылок: { ico, name, desc, url }
+// ================================================================
+
+const DB = [
+
+  // ── МОДИФИКАЦИИ ─────────────────────────────────────────────
+
+  {
+    id: 'multi-class-tilda',
+    cats: ['mods', 'mods-tilda'],
+    emoji: '🏷',
+    name: 'Несколько классов для любого блока в Тильде',
+    chips: [
+      { text: 'Tilda', cls: 'cy' },
+      { text: 'Zero Block', cls: 'cb' },
+      { text: 'Работает', cls: 'cg' },
+    ],
+    status: 'green', statusText: 'Актуально · v1.0',
+    version: '1.0 · 17.02.2026',
+    source: 'https://lf-code.ru',
+    image: '', // вставь URL скриншота
+    desc: `Решает одно из главных ограничений Tilda — по умолчанию каждому блоку можно назначить только один CSS-класс.
+
+Если вы разрабатываете сложные проекты, делаете кастомную верстку, внедряете дизайн-систему или используете модификации с определёнными классами — эта модификация становится критически важной.
+
+Позволяет добавить любое количество CSS-классов через запятую к любому блоку на сайте.`,
+    steps: [
+      'Скачай файл модификации с сайта lf-code.ru',
+      'Открой нужный сайт в Tilda → Настройки сайта → Ещё → HTML-код в HEAD',
+      'Вставь скачанный скрипт',
+      'Сохрани и опубликуй сайт',
+      'В настройках блока в поле CSS-класс теперь можно вводить несколько классов через запятую',
+    ],
+    code: {
+      lang: 'html',
+      text: `<!-- Вставить в HEAD сайта через Настройки → HTML-код -->
+<script>
+(function() {
+  // Пример кода модификации
+  // Полный код скачай с lf-code.ru после авторизации
+  document.addEventListener('DOMContentLoaded', function() {
+    var blocks = document.querySelectorAll('[data-tilda-extra-classes]');
+    blocks.forEach(function(block) {
+      var classes = block.dataset.tildaExtraClasses.split(',');
+      classes.forEach(function(cls) {
+        block.classList.add(cls.trim());
+      });
+    });
+  });
+})();
+<\/script>`,
+    },
+    links: [],
+  },
+
+  // ── ИНСТРУМЕНТЫ ─────────────────────────────────────────────
+
+  {
+    id: 'colormania',
+    cats: ['tools', 'tools-design'],
+    emoji: '🎨',
+    name: 'ColorMania — пипетка для дизайнеров',
+    chips: [
+      { text: 'Windows', cls: 'cb' },
+      { text: 'Бесплатно', cls: 'cg' },
+      { text: 'Дизайн', cls: 'cp' },
+    ],
+    status: 'green', statusText: 'Бесплатно',
+    version: 'latest',
+    source: 'https://www.blacksunsoftware.com/colormania.html',
+    image: '',
+    desc: `Идеальная пипетка для дизайнеров и разработчиков. Позволяет узнать точный цвет любого пикселя на экране — от сайта до игры.
+
+Что умеет:
+• Брать цвет из любой точки экрана
+• Встроенная лупа для точного попадания в пиксель
+• Показывает HEX, RGB, HSL, CMYK и другие форматы
+• Можно сохранять палитры
+• Лёгкая и полностью бесплатная
+
+Отлично подходит для вёрстки, UI-дизайна, графики и разработки.`,
+    steps: [],
+    code: null,
+    links: [
+      {
+        ico: '💾',
+        name: 'ColorMania для Windows',
+        desc: 'Официальный сайт — скачать бесплатно',
+        url: 'https://www.blacksunsoftware.com/colormania.html',
+      },
+      {
+        ico: '🍎',
+        name: 'Just Color Picker для macOS',
+        desc: 'Аналог для Mac — такая же идея',
+        url: 'https://annystudio.com/software/colorpicker/',
+      },
+    ],
+  },
+
+  // ── СКРИПТЫ ─────────────────────────────────────────────────
+
+  {
+    id: 'utm-blocks',
+    cats: ['scripts', 'scripts-tilda'],
+    emoji: '⚡',
+    name: 'Показ блоков только трафику из рекламы (UTM)',
+    chips: [
+      { text: 'Tilda', cls: 'cy' },
+      { text: 'T123', cls: 'cb' },
+      { text: 'Конверсия', cls: 'co' },
+    ],
+    status: 'green', statusText: 'Работает',
+    version: 'mini-script',
+    source: '',
+    image: '',
+    desc: `Показывает спецпредложение только тем, кто пришёл с рекламы — без отдельного лендинга.
+
+Как работает:
+→ Человек пришёл из поиска — видит обычный сайт
+→ Человек пришёл из рекламы — видит скидку, бонус или усиленный оффер
+
+Зачем это нужно:
+• Повышает конверсию рекламного трафика
+• Не нужно делать отдельные страницы
+• Можно давать «секретный» бонус только платному трафику
+• Удобно тестировать офферы
+
+Установка: добавь код в конец лендинга через T123 и присвой рекламным блокам класс uc-ads-block`,
+    steps: [
+      'Открой нужную страницу в Tilda',
+      'Добавь блок T123 в самый конец страницы',
+      'Вставь скрипт ниже в блок T123',
+      'Перейди к блокам которые нужно показывать только рекламному трафику',
+      'В настройках каждого такого блока добавь CSS-класс: uc-ads-block',
+      'Сохрани и опубликуй сайт',
+      'Проверь: открой страницу с ?utm_source=test в URL — блоки должны появиться',
+    ],
+    code: {
+      lang: 'html',
+      text: `<script>
+(function() {
+  // Скрываем рекламные блоки для всех по умолчанию
+  var style = document.createElement('style');
+  style.textContent = '.uc-ads-block { display: none !important; }';
+  document.head.appendChild(style);
+
+  // Проверяем UTM-метки в URL
+  var params = new URLSearchParams(window.location.search);
+  var hasUtm = params.has('utm_source') || 
+               params.has('utm_medium') || 
+               params.has('utm_campaign');
+
+  // Если пришёл с рекламы — показываем блоки
+  if (hasUtm) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var blocks = document.querySelectorAll('.uc-ads-block');
+      blocks.forEach(function(block) {
+        block.style.display = '';
+      });
+    });
+  }
+})();
+<\/script>`,
+    },
+    links: [],
+  },
+
+  // ── ПОДБОРКИ ─────────────────────────────────────────────────
+
+  {
+    id: 'figma-plugins',
+    cats: ['collections', 'collections-figma'],
+    emoji: '🎭',
+    name: 'Подборка полезных плагинов для Figma',
+    chips: [
+      { text: 'Figma', cls: 'cp' },
+      { text: 'Подборка', cls: 'cb' },
+      { text: '5 плагинов', cls: 'cy' },
+    ],
+    status: 'green', statusText: 'Актуально',
+    version: '2026',
+    source: '',
+    image: '',
+    desc: `5 плагинов которые реально полезны в работе — перспектива, тени, удаление фона, иллюстрации и блобы.`,
+    steps: [],
+    code: null,
+    links: [
+      {
+        ico: '🔲',
+        name: 'Perspective Toolkit',
+        desc: 'Отображение элементов в разных перспективах, углы и оси вращения',
+        url: 'https://www.figma.com/community/plugin/862059663689780943/perspective-toolkit',
+      },
+      {
+        ico: '🖼',
+        name: 'Illustrations',
+        desc: 'Библиотека 3D элементов и иллюстраций. Лицензия Creative Commons',
+        url: 'https://www.figma.com/community/plugin/781441863578182316/illustrations',
+      },
+      {
+        ico: '🌑',
+        name: 'Beautiful Shadows',
+        desc: 'Красивые тени — перетаскиваешь источник света и настраиваешь',
+        url: 'https://www.figma.com/community/plugin/1068595505353552645/beautiful-shadows',
+      },
+      {
+        ico: '✂️',
+        name: 'Icons8 Background Remover',
+        desc: 'Удаление фона с изображений. Сохраняет исходное качество',
+        url: 'https://www.figma.com/community/plugin/997643096679511216/icons8-background-remover',
+      },
+      {
+        ico: '🫧',
+        name: 'Blobs',
+        desc: 'Генератор случайных векторных форм-клякс для уникальных композиций',
+        url: 'https://www.figma.com/community/plugin/739208439270091369/blobs',
+      },
+    ],
+  },
+
+];
+
+// ================================================================
+//  КАК ДОБАВИТЬ НОВУЮ ЗАПИСЬ — просто скопируй объект выше,
+//  вставь его в массив DB и измени поля. Это всё!
+// ================================================================
+
+// Индекс категорий
+const CATS = {
+  'mods':              { title: 'Модификации',     sub: 'все' },
+  'mods-tilda':        { title: 'Моды · Tilda',    sub: 'только Tilda' },
+  'mods-other':        { title: 'Моды · Прочее',   sub: 'прочие платформы' },
+  'tools':             { title: 'Инструменты',     sub: 'все' },
+  'tools-design':      { title: 'Инструменты · Дизайн', sub: 'для дизайна' },
+  'tools-dev':         { title: 'Инструменты · Dev', sub: 'для разработки' },
+  'scripts':           { title: 'Скрипты',         sub: 'все' },
+  'scripts-tilda':     { title: 'Скрипты · Tilda', sub: 'только Tilda' },
+  'collections':       { title: 'Подборки',        sub: 'все' },
+  'collections-figma': { title: 'Подборки · Figma','sub': 'плагины и ресурсы' },
+};
+
+// ── STATE ──
+let currentCat  = 'mods';
+let searchQuery = '';
+
+// ── RENDER ──
+function getItems(cat, q) {
+  return DB.filter(item => {
+    const catMatch = item.cats.includes(cat);
+    if (!catMatch) return false;
+    if (!q) return true;
+    const ql = q.toLowerCase();
+    return item.name.toLowerCase().includes(ql) ||
+           (item.desc || '').toLowerCase().includes(ql);
+  });
+}
+
+function render() {
+  const items    = getItems(currentCat, searchQuery);
+  const container= document.getElementById('cards');
+  const meta     = CATS[currentCat] || { title: currentCat, sub: '' };
+
+  document.getElementById('page-title').textContent  = meta.title;
+  document.getElementById('page-sub').textContent    = meta.sub;
+  document.getElementById('page-count').textContent  = items.length + ' записей';
+  document.getElementById('h-right').textContent     = items.length + ' записей';
+
+  if (!items.length) {
+    container.innerHTML = `<div class="empty"><div class="empty-ico">◻</div><p>Записей нет.<br>Добавь данные в массив DB в коде.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  items.forEach((item, i) => {
+    const el = buildCard(item);
+    el.style.animationDelay = (i * 35) + 'ms';
+    container.appendChild(el);
+  });
+}
+
+function buildCard(item) {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const chips = (item.chips||[]).map(c => `<span class="chip ${c.cls}">${c.text}</span>`).join('');
+  const dotCls = { green: 'dot-g', yellow: 'dot-y', red: 'dot-r' }[item.status] || 'dot-y';
+
+  // Tabs to render
+  const hasTabs   = item.steps?.length || item.code || item.links?.length;
+  const tabsHTML  = hasTabs ? buildTabs(item) : '';
+  const infoHTML  = buildInfo(item, dotCls);
+
+  // Image
+  let imgHTML = '';
+  if (item.image) {
+    imgHTML = `<img class="c-img" src="${item.image}" alt="${item.name}" loading="lazy">`;
+  }
+
+  card.innerHTML = `
+    <div class="ch" onclick="toggleCard(this.parentElement)">
+      <div class="ce">${item.emoji||'▪'}</div>
+      <div class="ci">
+        <div class="cn">${item.name}</div>
+        <div class="cc">${chips}</div>
+      </div>
+      <div class="ct">▾</div>
+    </div>
+    <div class="cb-wrap">
+      ${imgHTML}
+      ${infoHTML}
+      ${tabsHTML}
+    </div>`;
+
+  return card;
+}
+
+function buildInfo(item, dotCls) {
+  const src = item.source
+    ? `<a href="${item.source}" target="_blank">${item.source.replace(/https?:\/\//,'')}</a>`
+    : '—';
+
+  return `
+    <div style="padding:14px 14px 0;display:flex;flex-direction:column;gap:10px">
+      <div class="ig">
+        <div class="ib"><div class="il">Версия</div><div class="iv">${item.version||'—'}</div></div>
+        <div class="ib"><div class="il">Источник</div><div class="iv">${src}</div></div>
+        <div class="ib">
+          <div class="il">Статус</div>
+          <div class="status"><div class="dot ${dotCls}"></div><span class="sl">${item.statusText||'—'}</span></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildTabs(item) {
+  let tabs = '';
+  let panels = '';
+  let first = true;
+
+  if (item.desc) {
+    tabs   += `<div class="tab${first?' active':''}" onclick="switchTab(this,'tp-desc-${item.id}')">📄 Описание</div>`;
+    panels += `<div class="tp${first?' active':''}" id="tp-desc-${item.id}"><div class="desc">${item.desc}</div></div>`;
+    first   = false;
+  }
+
+  if (item.steps?.length) {
+    tabs   += `<div class="tab${first?' active':''}" onclick="switchTab(this,'tp-steps-${item.id}')">📋 Установка</div>`;
+    const stepsHTML = item.steps.map((s,i) =>
+      `<div class="step"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`
+    ).join('');
+    panels += `<div class="tp${first?' active':''}" id="tp-steps-${item.id}"><div class="steps">${stepsHTML}</div></div>`;
+    first   = false;
+  }
+
+  if (item.code) {
+    const eid = 'code-' + item.id;
+    tabs   += `<div class="tab${first?' active':''}" onclick="switchTab(this,'tp-code-${item.id}')">💻 Код</div>`;
+    panels += `
+      <div class="tp${first?' active':''}" id="tp-code-${item.id}">
+        <div class="code-block">
+          <div class="code-head">
+            <span class="code-lang">${item.code.lang}</span>
+            <button class="copy-btn" onclick="copyCode('${eid}',this)">Копировать</button>
+          </div>
+          <pre><code id="${eid}">${escHtml(item.code.text.trim())}</code></pre>
+        </div>
+      </div>`;
+    first = false;
+  }
+
+  if (item.links?.length) {
+    tabs   += `<div class="tab${first?' active':''}" onclick="switchTab(this,'tp-links-${item.id}')">🔗 Ссылки</div>`;
+    const linksHTML = item.links.map(l => `
+      <a class="link-item" href="${l.url}" target="_blank">
+        <span class="li-ico">${l.ico||'🔗'}</span>
+        <div class="li-body">
+          <div class="li-name">${l.name}</div>
+          ${l.desc ? `<div class="li-desc">${l.desc}</div>` : ''}
+          <div class="li-url">${l.url.replace(/https?:\/\//,'')}</div>
+        </div>
+        <span class="li-arrow">↗</span>
+      </a>`).join('');
+    panels += `<div class="tp${first?' active':''}" id="tp-links-${item.id}"><div class="links-list">${linksHTML}</div></div>`;
+  }
+
+  return `<div class="tabs" style="margin-top:10px">${tabs}</div><div style="padding:0">${panels}</div>`;
+}
+
+// ── HELPERS ──
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+
+function switchTab(tab, panelId) {
+  const card = tab.closest('.card');
+  card.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  card.querySelectorAll('.tp').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById(panelId)?.classList.add('active');
+}
+
+function copyCode(id, btn) {
+  const code = document.getElementById(id)?.textContent || '';
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = '✓ Скопировано';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Копировать'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── NAV ──
+function go(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function toggleNG(title) {
+  title.parentElement.classList.toggle('open');
+}
+
+function doSearch(q) {
+  searchQuery = q;
+  render();
+}
+
+// ── COUNTS ──
+function updateCounts() {
+  Object.keys(CATS).forEach(cat => {
+    const el = document.getElementById('nb-' + cat);
+    if (el) el.textContent = DB.filter(i => i.cats.includes(cat)).length;
+  });
+}
+
+// ── INIT ──
+updateCounts();
+render();
+</script>
+</body>
+</html>

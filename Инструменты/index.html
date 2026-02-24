@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LH Vault - Private Knowledge Base">
+<title>LH Vault</title>
+
+<!-- FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- STYLES & ICON -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg">
+
+<!-- DATA & LOGIC -->
+<script src="assets/dict/data.js"></script>
+<script src="assets/js/app.js" defer></script>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div id="toast-container"></div>
+
+<div id="preloader">
+  <div class="pl-logo">LH<em>.</em>Vault</div>
+  <div class="pl-line"><div class="pl-inc"></div></div>
+</div>
+
+<div id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-ico">🔒</div>
+    <div class="auth-head">Доступ к Vault</div>
+    <div class="auth-sub">Введите код доступа для входа в систему</div>
+    <input type="password" id="auth-pass" class="auth-inp" placeholder="Код доступа (12345)">
+    <button class="auth-btn" onclick="tryLogin()">ВОЙТИ</button>
+    <div class="auth-msg" id="auth-msg">Неверный код</div>
+  </div>
+</div>
+
+<div id="profile-modal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span>Профиль</span>
+      <button class="close-btn" onclick="closeProfile()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="p-row">
+        <div class="p-avatar-big"><img id="p-edit-img" src=""></div>
+        <div class="p-info-edit">
+          <div class="p-label">Имя</div>
+          <input type="text" id="p-edit-name" class="p-inp">
+          <div class="p-label">Статус / О себе</div>
+          <input type="text" id="p-edit-bio" class="p-inp">
+        </div>
+      </div>
+      <div class="p-stats">
+        <div class="p-stat-row">
+          <span>Уровень <b id="p-edit-lvl">1</b></span>
+          <span>XP: <span id="p-edit-xp">0</span></span>
+        </div>
+        <div class="xp-track"><div class="xp-fill" id="p-xp-bar"></div></div>
+      </div>
+      <div class="p-settings">
+        <div class="p-label">Настройки</div>
+        <div class="setting-row">
+          <span>Тёмная тема</span>
+          <label class="switch">
+            <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span>CRT Эффект (Retro)</span>
+          <label class="switch">
+            <input type="checkbox" id="fx-switch" onchange="toggleFX()">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="logout()">Выйти</button>
+      <button class="btn-prim" onclick="saveProfile()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+  <div class="logo">LH<em>.</em>Vault</div>
+  <div class="h-search">
+    <span class="h-ico">⌕</span>
+    <input type="text" id="search" placeholder="Поиск по названию и описанию..." oninput="doSearch(this.value)">
+  </div>
+  <div class="h-controls">
+    <button class="btn-icon" onclick="toggleTheme()" title="Сменить тему"><span id="theme-icon">☀</span></button>
+    <div class="profile-wrap">
+      <div class="avatar" onclick="openProfile()"><img id="user-avatar" src="" alt="User"></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+  <aside id="sidebar">
+    <div class="sys-widget">
+      <div class="sys-head">System Core <span>●</span></div>
+      <div class="sys-graph" id="sys-graph"></div>
+      <div class="sys-stat">CPU: <span class="sys-val" id="sys-cpu">12%</span> · MEM: <span class="sys-val">4GB</span></div>
+    </div>
+    <div class="ng open">
+      <div class="ng-title" onclick="toggleNG(this)"><span>📦</span> Модификации <span class="ng-arrow">▶</span></div>
+      <div class="ni-wrap"><div class="ni active" onclick="go('mods',this)">Все <span class="nb" id="nb-mods">0</span></div><div class="ni" onclick="go('mods-tilda',this)">Tilda <span class="nb" id="nb-mods-tilda">0</span></div><div class="ni" onclick="go('mods-other',this)">Прочее <span class="nb" id="nb-mods-other">0</span></div></div>
+    </div>
+    <div class="ng">
+      <div class="ng-title" onclick="toggleNG(this)"><span>🛠</span> Инструменты <span class="ng-arrow">▶</span></div>
+      <div class="ni-wrap"><div class="ni" onclick="go('tools',this)">Все <span class="nb" id="nb-tools">0</span></div><div class="ni" onclick="go('tools-design',this)">Дизайн <span class="nb" id="nb-tools-design">0</span></div><div class="ni" onclick="go('tools-dev',this)">Разработка <span class="nb" id="nb-tools-dev">0</span></div></div>
+    </div>
+    <div class="ng">
+      <div class="ng-title" onclick="toggleNG(this)"><span>⚡</span> Скрипты <span class="ng-arrow">▶</span></div>
+      <div class="ni-wrap"><div class="ni" onclick="go('scripts',this)">Все <span class="nb" id="nb-scripts">0</span></div><div class="ni" onclick="go('scripts-tilda',this)">Tilda <span class="nb" id="nb-scripts-tilda">0</span></div></div>
+    </div>
+    <div class="ng">
+      <div class="ng-title" onclick="toggleNG(this)"><span>🎨</span> Подборки <span class="ng-arrow">▶</span></div>
+      <div class="ni-wrap"><div class="ni" onclick="go('collections',this)">Все <span class="nb" id="nb-collections">0</span></div><div class="ni" onclick="go('collections-figma',this)">Figma <span class="nb" id="nb-collections-figma">0</span></div></div>
+    </div>
+  </aside>
+  <main>
+    <div class="dash-stats"><div class="d-stat-card"><div class="d-stat-icon">⚡</div><div class="d-stat-val" id="d-lvl">1</div><div class="d-stat-label">Уровень</div></div><div class="d-stat-card"><div class="d-stat-icon">💠</div><div class="d-stat-val" id="d-xp">0</div><div class="d-stat-label">Всего XP</div></div><div class="d-stat-card"><div class="d-stat-icon">📂</div><div class="d-stat-val" id="d-total">0</div><div class="d-stat-label">Материалов</div></div><div class="d-stat-card"><div class="d-stat-icon">👁</div><div class="d-stat-val" id="d-viewed">0</div><div class="d-stat-label">Изучено</div></div></div>
+    <div class="ph"><div><div class="pt" id="page-title">Модификации</div><div class="ps" id="page-sub">все категории</div></div><div class="pc" id="page-count">0 записей</div></div>
+    <div id="cards" class="cards"></div>
+    <footer class="footer"><div class="f-copy">© 2026 LH.Vault v2.2 · Private Storage</div><div class="f-links"><a href="#" class="f-link">Support</a><a href="#" class="f-link">Docs</a></div><div style="font-size:10px;color:var(--mid)">Designed with ⚡ & Code</div></footer>
+  </main>
+</div>
+</body>
+</html>
